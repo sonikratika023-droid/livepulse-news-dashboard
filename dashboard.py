@@ -123,11 +123,11 @@ with st.sidebar:
     if auto_refresh:
         st.info("Auto-refresh enabled (30s)")
 
-# Load data function
+# Load data function - FIXED TABLE NAME
 @st.cache_data(ttl=30)
 def load_data():
     try:
-        response = supabase.table('news_articles').select('*').execute()
+        response = supabase.table('articles').select('*').execute()
         return pd.DataFrame(response.data) if response.data else pd.DataFrame()
     except Exception as e:
         st.error(f"Error loading data: {e}")
@@ -256,7 +256,7 @@ elif page == "📁 Upload Data":
         if st.button("💾 Save to Database"):
             try:
                 data_dict = df_upload.to_dict('records')
-                supabase.table('news_articles').insert(data_dict).execute()
+                supabase.table('articles').insert(data_dict).execute()
                 st.success("✅ Data saved successfully!")
             except Exception as e:
                 st.error(f"❌ Error saving data: {e}")
@@ -306,6 +306,6 @@ elif page == "ℹ️ About":
     
     ---
     
-    **Developer:** Sonikaratika
+    **Developer:** Sonika Ratika
     **GitHub:** [livepulse-news-dashboard](https://github.com/sonikratika023-droid/livepulse-news-dashboard)
     """)
